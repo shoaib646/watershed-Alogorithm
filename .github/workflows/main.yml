@@ -1,0 +1,27 @@
+name: Snyk Vulnerability Scan
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to main branch
+
+jobs:
+  snyk-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # Choose the appropriate version for your project
+
+      - name: Install dependencies
+        run: npm install  # Assuming your Flask app has a Node.js package.json file
+
+      - name: Snyk Vulnerability Scan
+        uses: snyk/actions/node@v1
+        with:
+          snyk-token: ${{ secrets.SNYK_TOKEN }}  # Store your Snyk token as a GitHub secret
